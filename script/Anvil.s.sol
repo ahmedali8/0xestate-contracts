@@ -14,13 +14,15 @@ import {MockERC20} from "solmate/test/utils/mocks/MockERC20.sol";
 import {Constants} from "v4-core/src/../test/utils/Constants.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {CurrencyLibrary, Currency} from "v4-core/src/types/Currency.sol";
-import {EstateHook} from "../src/EstateHook.sol";
+import {EstateHook} from "../src/hooks/EstateHook.sol";
 import {HookMiner} from "../test/utils/HookMiner.sol";
 
 /// @notice Forge script for deploying v4 & hooks to **anvil**
 /// @dev This script only works on an anvil RPC because v4 exceeds bytecode limits
 contract EstateHookScript is Script {
     address constant CREATE2_DEPLOYER = address(0x4e59b44847b379578588920cA78FbF26c0B4956C);
+    string public constant APP_ID = "app_staging_482e634f656d2dfd3243bf8d49c4ab7d";
+    string public constant ACTION_ID = "user-verification";
 
     function setUp() public {}
 
@@ -42,7 +44,7 @@ contract EstateHookScript is Script {
         // Deploy the hook using CREATE2 //
         // ----------------------------- //
         vm.broadcast();
-        EstateHook estate = new EstateHook{salt: salt}(manager);
+        EstateHook estate = new EstateHook{salt: salt}(manager, APP_ID, ACTION_ID);
         require(address(estate) == hookAddress, "EstateHookScript: hook address mismatch");
 
         // Additional helpers for interacting with the pool

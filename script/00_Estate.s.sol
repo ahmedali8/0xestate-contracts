@@ -8,12 +8,15 @@ import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {PoolModifyLiquidityTest} from "v4-core/src/test/PoolModifyLiquidityTest.sol";
 import {PoolSwapTest} from "v4-core/src/test/PoolSwapTest.sol";
 import {PoolDonateTest} from "v4-core/src/test/PoolDonateTest.sol";
-import {EstateHook} from "../src/EstateHook.sol";
+import {EstateHook} from "../src/hooks/EstateHook.sol";
 import {HookMiner} from "../test/utils/HookMiner.sol";
 
 contract EstateHookScript is Script {
     address constant CREATE2_DEPLOYER = address(0x4e59b44847b379578588920cA78FbF26c0B4956C);
     address constant GOERLI_POOLMANAGER = address(0x3A9D48AB9751398BbFa63ad67599Bb04e4BdF98b);
+
+    string public constant APP_ID = "app_staging_482e634f656d2dfd3243bf8d49c4ab7d";
+    string public constant ACTION_ID = "user-verification";
 
     function setUp() public {}
 
@@ -31,7 +34,7 @@ contract EstateHookScript is Script {
 
         // Deploy the hook using CREATE2
         vm.broadcast();
-        EstateHook estate = new EstateHook{salt: salt}(IPoolManager(address(GOERLI_POOLMANAGER)));
+        EstateHook estate = new EstateHook{salt: salt}(IPoolManager(address(GOERLI_POOLMANAGER)), APP_ID, ACTION_ID);
         require(address(estate) == hookAddress, "EstateHookScript: hook address mismatch");
     }
 }

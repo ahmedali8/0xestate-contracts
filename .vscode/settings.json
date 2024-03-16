@@ -1,0 +1,10 @@
+{
+  "[solidity]": {
+    "editor.defaultFormatter": "NomicFoundation.hardhat-solidity"
+  },
+  "editor.formatOnSave": true,
+  "files.associations": {
+    ".gas-snapshot": "julia"
+  },
+  "solidity.formatter": "forge"
+}

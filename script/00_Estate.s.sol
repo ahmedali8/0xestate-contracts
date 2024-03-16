@@ -8,10 +8,10 @@ import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {PoolModifyLiquidityTest} from "v4-core/src/test/PoolModifyLiquidityTest.sol";
 import {PoolSwapTest} from "v4-core/src/test/PoolSwapTest.sol";
 import {PoolDonateTest} from "v4-core/src/test/PoolDonateTest.sol";
-import {Counter} from "../src/Counter.sol";
+import {EstateHook} from "../src/EstateHook.sol";
 import {HookMiner} from "../test/utils/HookMiner.sol";
 
-contract CounterScript is Script {
+contract EstateHookScript is Script {
     address constant CREATE2_DEPLOYER = address(0x4e59b44847b379578588920cA78FbF26c0B4956C);
     address constant GOERLI_POOLMANAGER = address(0x3A9D48AB9751398BbFa63ad67599Bb04e4BdF98b);
 
@@ -25,12 +25,13 @@ contract CounterScript is Script {
         );
 
         // Mine a salt that will produce a hook address with the correct flags
-        (address hookAddress, bytes32 salt) =
-            HookMiner.find(CREATE2_DEPLOYER, flags, type(Counter).creationCode, abi.encode(address(GOERLI_POOLMANAGER)));
+        (address hookAddress, bytes32 salt) = HookMiner.find(
+            CREATE2_DEPLOYER, flags, type(EstateHook).creationCode, abi.encode(address(GOERLI_POOLMANAGER))
+        );
 
         // Deploy the hook using CREATE2
         vm.broadcast();
-        Counter counter = new Counter{salt: salt}(IPoolManager(address(GOERLI_POOLMANAGER)));
-        require(address(counter) == hookAddress, "CounterScript: hook address mismatch");
+        EstateHook estate = new EstateHook{salt: salt}(IPoolManager(address(GOERLI_POOLMANAGER)));
+        require(address(estate) == hookAddress, "EstateHookScript: hook address mismatch");
     }
 }

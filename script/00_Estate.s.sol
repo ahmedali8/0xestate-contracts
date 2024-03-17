@@ -2,39 +2,31 @@
 pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
-import {Hooks} from "v4-core/src/libraries/Hooks.sol";
-import {PoolManager} from "v4-core/src/PoolManager.sol";
-import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
-import {PoolModifyLiquidityTest} from "v4-core/src/test/PoolModifyLiquidityTest.sol";
-import {PoolSwapTest} from "v4-core/src/test/PoolSwapTest.sol";
-import {PoolDonateTest} from "v4-core/src/test/PoolDonateTest.sol";
-import {EstateHook} from "../src/hooks/EstateHook.sol";
-import {HookMiner} from "../test/utils/HookMiner.sol";
+import {Estate} from "../src/Estate.sol";
 
-contract EstateHookScript is Script {
-    address constant CREATE2_DEPLOYER = address(0x4e59b44847b379578588920cA78FbF26c0B4956C);
-    address constant GOERLI_POOLMANAGER = address(0x3A9D48AB9751398BbFa63ad67599Bb04e4BdF98b);
-
-    string public constant APP_ID = "app_staging_482e634f656d2dfd3243bf8d49c4ab7d";
-    string public constant ACTION_ID = "user-verification";
-
+contract EstateScript is Script {
     function setUp() public {}
 
-    function run() public {
-        // hook contracts must have specific flags encoded in the address
-        uint160 flags = uint160(
-            Hooks.BEFORE_SWAP_FLAG | Hooks.AFTER_SWAP_FLAG | Hooks.BEFORE_ADD_LIQUIDITY_FLAG
-                | Hooks.BEFORE_REMOVE_LIQUIDITY_FLAG
-        );
+    function run() public returns (Estate estate) {
+        estate = new Estate({_name: "Estate", _symbol: "EST", _initialOwner: msg.sender});
+    }
 
-        // Mine a salt that will produce a hook address with the correct flags
-        (address hookAddress, bytes32 salt) = HookMiner.find(
-            CREATE2_DEPLOYER, flags, type(EstateHook).creationCode, abi.encode(address(GOERLI_POOLMANAGER))
-        );
-
-        // Deploy the hook using CREATE2
-        vm.broadcast();
-        EstateHook estate = new EstateHook{salt: salt}(IPoolManager(address(GOERLI_POOLMANAGER)), APP_ID, ACTION_ID);
-        require(address(estate) == hookAddress, "EstateHookScript: hook address mismatch");
+    function mint() public pure {
+        // asset details params
+        Estate.AssetDetails memory assetDetails = Estate.AssetDetails({
+            legalDescription: "Estate",
+            assetAddress: "123 Main St",
+            geoJson: "123 Main St",
+            parcelId: "123 Main St",
+            legalOwner: "123 Main St",
+            operatingAgreementHash: keccak256(abi.encodePacked("123 Main St")),
+            debtToken: address(0),
+            debtAmt: 0,
+            foreclosed: false,
+            manager: address(0x12)
+        });
     }
 }
+
+// asset details params
+// ["Estate","123 Main St","123 Main St","123 Main St","123 Main St","0xef06d37a1ee853d9a02b5029324d48bc1565dce3dddaa22b51820f7eb0136405","0xde43f899587aaa2Ea6aD243F3d68a5027F2C6a94",0,false,"0xde43f899587aaa2Ea6aD243F3d68a5027F2C6a94"]

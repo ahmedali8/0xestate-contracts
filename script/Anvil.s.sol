@@ -15,7 +15,7 @@ import {Constants} from "v4-core/src/../test/utils/Constants.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {CurrencyLibrary, Currency} from "v4-core/src/types/Currency.sol";
 import {EstateHook} from "../src/hooks/EstateHook.sol";
-import {HookMiner} from "../test/utils/HookMiner.sol";
+import {HookMiner} from "../src/utils/HookMiner.sol";
 
 /// @notice Forge script for deploying v4 & hooks to **anvil**
 /// @dev This script only works on an anvil RPC because v4 exceeds bytecode limits

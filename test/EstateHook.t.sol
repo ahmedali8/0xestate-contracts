@@ -13,7 +13,7 @@ import {CurrencyLibrary, Currency} from "v4-core/src/types/Currency.sol";
 import {PoolSwapTest} from "v4-core/src/test/PoolSwapTest.sol";
 import {Deployers} from "v4-core/test/utils/Deployers.sol";
 import {MockERC20} from "solmate/test/utils/mocks/MockERC20.sol";
-import {HookMiner} from "./utils/HookMiner.sol";
+import {HookMiner} from "../src/utils/HookMiner.sol";
 import {EstateHook} from "../src/hooks/EstateHook.sol";
 import {Constants} from "v4-core/test/utils/Constants.sol";
 
@@ -31,6 +31,7 @@ contract EstateHookTest is Test, Deployers {
     PoolId poolId;
 
     function setUp() public {
+        console.logBytes32(keccak256(abi.encodePacked("123 Main St")));
         // creates the pool manager, utility routers, and test tokens
         Deployers.deployFreshManagerAndRouters();
 

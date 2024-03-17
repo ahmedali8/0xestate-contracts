@@ -1,0 +1,18 @@
+// https://sepolia.base.org
+// PoolManager deployed to 0xd962b16F4ec712D705106674E944B04614F077be
+// PoolSwapTest deployed to 0x60AbEb98b3b95A0c5786261c1Ab830e3D2383F9e
+// PoolModifyLiquidityTest deployed to 0x5bA874E13D2Cf3161F89D1B1d1732D14226dBF16
+
+// forge script script/00_Estate.s.sol --broadcast --rpc-url "https://sepolia.base.org" --etherscan-api-key "" --private-key "" --verify -vvvv
+// forge script script/00_Estate.s.sol --broadcast --account deployer --verify -vvvv
+
+// Estate: 0x2cb1bbede8f08ad9760c34fbb982e1fdad5471a8
+
+// asset details params
+// ["Estate","123 Main St","123 Main St","123 Main St","123 Main St","0xef06d37a1ee853d9a02b5029324d48bc1565dce3dddaa22b51820f7eb0136405","0xde43f899587aaa2Ea6aD243F3d68a5027F2C6a94",0,false,"0xde43f899587aaa2Ea6aD243F3d68a5027F2C6a94"]
+
+// VaultFactory: 0xbb2677ACDfD2847297c5316D32208EfB2a35ad95
+
+// Vault: 0xbcF7a3D57d357A5b69ec6D9E0B982677819DcA68
+
+// forge script script/01_EstateHook.s.sol --broadcast --account deployer --verify -vvvv

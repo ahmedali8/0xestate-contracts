@@ -62,8 +62,8 @@ contract Vault is Ownable, ERC721Holder, Token {
         require(state == State.inactive, "State should be inactive");
         collection = _collection;
         tokenId = _tokenId;
-        _mint(_to, _supply);
         state = State.fractionalized;
+        _mint(_to, _supply);
 
         emit Fractionalized(collection, address(this));
     }

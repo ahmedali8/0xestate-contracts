@@ -18,7 +18,7 @@ error TokenDoesNotExist(uint256 tokenId);
 error AssetIsForeclosed(uint256 tokenId);
 
 contract Estate is IERC6065, Ownable, ERC721URIStorage, ReentrancyGuard {
-    uint256 private _tokenIdCounter;
+    uint256 private _tokenIdCounter = 1;
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
     struct AssetDetails {
@@ -38,7 +38,7 @@ contract Estate is IERC6065, Ownable, ERC721URIStorage, ReentrancyGuard {
 
     event AssetMinted(uint256 indexed itemId, address indexed to, string uri);
 
-    constructor(string memory _name, string memory _symbol, address _initialOwner, address _admin)
+    constructor(string memory _name, string memory _symbol, address _initialOwner)
         ERC721(_name, _symbol)
         Ownable(_initialOwner)
     {}
@@ -49,15 +49,16 @@ contract Estate is IERC6065, Ownable, ERC721URIStorage, ReentrancyGuard {
 
     // Function to create a new RWA NFT
 
-    function mint(address to, string memory uri, AssetDetails memory assetDetails) public onlyOwner {
+    function mint(address to, string memory uri, AssetDetails memory assetDetails) public onlyOwner returns (uint256) {
         uint256 newItemId = _tokenIdCounter;
-        _tokenIdCounter++;
+        ++_tokenIdCounter;
 
         _mint(to, newItemId);
         _setTokenURI(newItemId, uri);
         _assets[newItemId] = assetDetails;
 
         emit AssetMinted(newItemId, to, uri); // Consider adding this event for better tracking
+        return newItemId;
     }
     // Implementing IERC6065 functions
 

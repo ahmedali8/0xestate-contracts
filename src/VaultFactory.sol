@@ -37,7 +37,7 @@ contract VaultFactory is Ownable, Pausable {
 
         Vault vault = Vault(
             CREATE3.deploy(
-                salt, abi.encodePacked(type(Vault).creationCode, abi.encode(_msgSender(), _name, _symbol)), 0
+                salt, abi.encodePacked(type(Vault).creationCode, abi.encode(address(this), _name, _symbol)), 0
             )
         );
 

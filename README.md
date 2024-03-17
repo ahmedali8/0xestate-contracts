@@ -12,6 +12,10 @@ Real property assets are subdivideable into 0xEstate tokenized shares that give 
 
 0xEstate is adopting a revolutionary model through NFTs (Non-Fungible Tokens), representing actual, physical property assets—each with ownership and historical data of their respective property on the blockchain. These NFTs are fractionalized into ERC-20 tokens, which lowers the threshold investment and brings in the most inclusive group of investors into the real estate sector.
 
+## Architecture
+
+To checkout the architecture diagrams, user flows, and use-case diagrams open [ARCHITECTURE](./ARCHITECTURE.md)
+
 ## Key Components
 
 1. **Parent Contract (ERC-6065)**: The Parent Contract that forms the core of 0xEstate is crafted with due consideration for easy integration with Base blockchains. This contract governs the NFTs representing real estate property and features bespoken from the contracts needed to smoothen the real estate transaction flow on the platform.

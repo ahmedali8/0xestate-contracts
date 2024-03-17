@@ -83,6 +83,8 @@ contract ManagerTest is Test {
         console2.log("msg.sender in testManager", msg.sender);
 
         PoolKey memory key = manager.setup(params);
+        assert(Currency.unwrap(key.currency0) == address(0));
+        assert(Currency.unwrap(key.currency1) != address(0));
 
         // BalanceDelta result = modifyLiquidityRouter.modifyLiquidity{value: 20 ether}(
         //     key, IPoolManager.ModifyLiquidityParams(-60, 60, 1000 ether), ZERO_BYTES
@@ -121,7 +123,5 @@ contract ManagerTest is Test {
 
         // console2.log("swapDelta amount0", swapDelta.amount0());
         // console2.log("swapDelta amount1", swapDelta.amount1());
-
-        assert(true == true);
     }
 }
